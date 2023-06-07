@@ -1,9 +1,15 @@
 <script>
+  import Navbar from "./lib/components/Navbar.svelte";
   import Container from "./lib/components/Container.svelte";
+  import Footer from "./lib/components/Footer.svelte";
 </script>
 
 <main>
-  <Container />
+  <Navbar />
+  <div class="app__container">
+    <Container />
+  </div>
+  <Footer />
 </main>
 
 <style>
@@ -17,5 +23,22 @@
   :global(body) {
     background-color: var(--bg-body);
     color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+      "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  main {
+    width: 100%;
+    height: 100vh;
+  }
+  .app__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 95vh;
   }
 </style>

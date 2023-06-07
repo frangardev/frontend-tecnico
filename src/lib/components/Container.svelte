@@ -2,11 +2,13 @@
   import { todos } from "../server/index";
 </script>
 
-{#each [...todos] as todo}
-  <div class="container">
-    {todo.titlem}
-  </div>
-{/each}
+<div class="container">
+  {#each [...todos] as todo}
+    <div class="container__todo">
+      {todo.titlem}
+    </div>
+  {/each}
+</div>
 
 <style>
   .container {
