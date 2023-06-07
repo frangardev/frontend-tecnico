@@ -1,14 +1,34 @@
 <script>
+  import InputTodo from "./lib/components/InputTodo.svelte";
+  //Components
   import Navbar from "./lib/components/Navbar.svelte";
-  import Container from "./lib/components/Container.svelte";
+  import Container from "./lib/components/AppContainer.svelte";
   import Footer from "./lib/components/Footer.svelte";
+
+  // Data todos
+  import { todos, completeTodo, deleteTodo } from "../src/lib/server";
+  // console.log(todos);
+
+  let myTodos = [...todos];
+  let totalCompleteTodos = myTodos.filter((todo) => todo.status).length;
+
+  console.log("myTodos", myTodos);
 </script>
 
 <main>
   <Navbar />
-  <div class="app__container">
-    <Container />
-  </div>
+  <Container>
+    <InputTodo />
+    {#each [...myTodos] as todo}
+      <div class="container__todo">
+        {todo.titlem}
+        <button on:click={() => completeTodo(todo.id)}>✓ </button>
+        <button on:click={() => deleteTodo(todo.id)}>X </button>
+        {todo.status}
+      </div>
+    {/each}
+    <p>Total Todos: {myTodos.length} | Completed Todos: {totalCompleteTodos}</p>
+  </Container>
   <Footer />
 </main>
 
@@ -29,16 +49,5 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
       "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  }
-  main {
-    width: 100%;
-    height: 100vh;
-  }
-  .app__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 95vh;
   }
 </style>
