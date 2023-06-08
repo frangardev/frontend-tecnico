@@ -10,6 +10,7 @@ export const { data: todos, error } = await supabase
     .from('todos')
     .select('*')
 
+
 /**
  * Agregar nuevas tareas
  * @param {string} todo El titlem (texto/nombre) de la tarea

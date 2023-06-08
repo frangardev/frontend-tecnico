@@ -6,11 +6,43 @@
   import Footer from "./lib/components/Footer.svelte";
 
   // Data todos
-  import { todos, completeTodo, deleteTodo } from "../src/lib/server";
-  // console.log(todos);
+  import {
+    completeTodo,
+    deleteTodo,
+    addTodo,
+    supabase,
+  } from "../src/lib/server";
 
-  let myTodos = [...todos];
-  let totalCompleteTodos = myTodos.filter((todo) => todo.status).length;
+  let myTodos = [];
+  let isRefreshTodos = true;
+
+  $: {
+    const getDataTodos = async () => {
+      const { data: todos, error } = await supabase.from("todos").select("*");
+      if (todos !== myTodos) {
+        myTodos = [...todos];
+      }
+    };
+    if (isRefreshTodos) {
+      getDataTodos();
+      isRefreshTodos = false;
+    }
+  }
+
+  const onCompleteTodo = (id) => {
+    completeTodo(id);
+    isRefreshTodos = true;
+  };
+  const onDeleteTodo = (id) => {
+    deleteTodo(id);
+    isRefreshTodos = true;
+  };
+  const onAddTodo = (newTitlem) => {
+    if (newTitlem !== "") {
+      addTodo(newTitlem);
+      isRefreshTodos = true;
+    }
+  };
 
   console.log("myTodos", myTodos);
 </script>
@@ -18,16 +50,22 @@
 <main>
   <Navbar />
   <Container>
-    <InputTodo />
-    {#each [...myTodos] as todo}
-      <div class="container__todo">
-        {todo.titlem}
-        <button on:click={() => completeTodo(todo.id)}>✓ </button>
-        <button on:click={() => deleteTodo(todo.id)}>X </button>
-        {todo.status}
-      </div>
-    {/each}
-    <p>Total Todos: {myTodos.length} | Completed Todos: {totalCompleteTodos}</p>
+    <InputTodo {onAddTodo} />
+    {#if myTodos.length > 0}
+      {#each [...myTodos] as todo}
+        <div class="container__todo">
+          {todo.titlem}
+          <button on:click={() => onCompleteTodo(todo.id)}>✓ </button>
+          <button on:click={() => onDeleteTodo(todo.id)}>X </button>
+          {todo.status}
+        </div>
+      {/each}
+    {/if}
+    <p>
+      Total Todos: {myTodos.length} | Completed Todos: {myTodos.filter(
+        (todo) => todo.status
+      ).length}
+    </p>
   </Container>
   <Footer />
 </main>
