@@ -2,13 +2,13 @@
   import arrow from "../../assets/icon-arrow.svg";
 </script>
 
-<div class="navbar__container">
-  <nav class="navbar">
+<nav class="navbar__container">
+  <div class="navbar">
     <span class="logo__navbar">TaskMaster</span>
     <div class="container__butons--navbar">
       <button class="button__navbar">
         <img
-          src="https://cdn2.iconfinder.com/data/icons/membership-account-outline/200/coder-512.png"
+          src="https://i.ibb.co/dPd50jq/frangardev-icon-page-coffee.png"
           alt="icon navbar"
           srcset=""
         />
@@ -17,22 +17,23 @@
         <img src={arrow} alt="arrow" srcset="" class="icon__arrow" />
       </button>
     </div>
-  </nav>
-</div>
+  </div>
+</nav>
 
 <style>
   .navbar__container {
     width: 100%;
     margin: 0;
+    padding: 0.5em 0;
     background-color: var(--bg-container);
   }
   .navbar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5em 0;
-    width: 90%;
-    max-width: 1232px;
+    width: calc(100% - 3em);
+    padding: 0 1.5em;
+    max-width: 80rem;
     margin: 0 auto;
   }
   .logo__navbar {

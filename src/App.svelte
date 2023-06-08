@@ -12,6 +12,7 @@
     addTodo,
     supabase,
   } from "../src/lib/server";
+  import TodoItem from "./lib/components/TodoItem.svelte";
 
   let myTodos = [];
   let isRefreshTodos = true;
@@ -20,7 +21,7 @@
     const getDataTodos = async () => {
       const { data: todos, error } = await supabase.from("todos").select("*");
       if (todos !== myTodos) {
-        myTodos = [...todos];
+        myTodos = await todos;
       }
     };
     if (isRefreshTodos) {
@@ -52,14 +53,17 @@
   <Container>
     <InputTodo {onAddTodo} />
     {#if myTodos.length > 0}
-      {#each [...myTodos] as todo}
-        <div class="container__todo">
-          {todo.titlem}
-          <button on:click={() => onCompleteTodo(todo.id)}>✓ </button>
-          <button on:click={() => onDeleteTodo(todo.id)}>X </button>
-          {todo.status}
-        </div>
-      {/each}
+      <ul class="container__todos">
+        {#each [...myTodos] as todo}
+          <!-- <div class="container__todo">
+            {todo.titlem}
+            <button on:click={() => onCompleteTodo(todo.id)}>✓ </button>
+            <button on:click={() => onDeleteTodo(todo.id)}>X </button>
+            {todo.status}
+          </div> -->
+          <TodoItem {todo} {onCompleteTodo} {onDeleteTodo} />
+        {/each}
+      </ul>
     {/if}
     <p>
       Total Todos: {myTodos.length} | Completed Todos: {myTodos.filter(
@@ -76,7 +80,8 @@
     --bg-container: #1f2937;
     --bg-todo: #374151;
     --text-color: #fffff2;
-    --action-color: #2563eb;
+    --action-color: rgb(59 130 246);
+    --action-color-hover: #2563eb;
   }
   :global(body) {
     background-color: var(--bg-body);
@@ -87,5 +92,10 @@
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
       "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  }
+  .container__todos {
+    padding-left: 32px;
+    list-style: none;
+    margin-bottom: 32px;
   }
 </style>
