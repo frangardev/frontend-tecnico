@@ -1,5 +1,7 @@
 import supabase from './createClient'
 
+export const { data: todos, error } = await supabase.from("todos").select("*");
+
 // Funciones para agregar, modificar y eliminar de todos de la base de datos
 
 /**

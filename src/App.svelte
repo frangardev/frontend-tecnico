@@ -7,7 +7,7 @@
   import TodoItem from "./lib/components/TodoItem.svelte";
 
   // Data todos
-  import { completeTodo, deleteTodo, addTodo } from "../src/lib/server";
+  import { completeTodo, deleteTodo, addTodo } from "../src/lib/server/index";
   import supabase from "./lib/server/createClient";
 
   import { onMount } from "svelte";
