@@ -1,3 +1,4 @@
+<!-- Navbar -->
 <script>
   import arrow from "../../assets/icon-arrow.svg";
 </script>

@@ -1,3 +1,4 @@
+<!-- Footer -->
 <script>
   import iconGitHub from "../../assets/icon-github.svg";
 </script>
@@ -60,7 +61,6 @@
   }
   .footer p {
     color: #9ca3af;
-    /* font-size: 14px; */
     font-weight: 400;
   }
 </style>

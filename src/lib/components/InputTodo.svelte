@@ -1,8 +1,14 @@
+<!-- Componente para añadir todos -->
 <script>
   export let onAddTodo;
 
   let newTitlem = "";
   const handleInput = (event) => (newTitlem = event.target.value);
+
+  const handleAddTodo = () => {
+    onAddTodo(newTitlem);
+    newTitlem = "";
+  };
 </script>
 
 <div class="input__container">
@@ -12,7 +18,7 @@
     on:input={handleInput}
     placeholder="Add a new todo..."
   />
-  <button on:click={() => onAddTodo(newTitlem)}>Add</button>
+  <button on:click={handleAddTodo}>Add</button>
 </div>
 
 <style>

@@ -1,15 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+import supabase from './createClient'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-// Traemos la tabla todos
-export const { data: todos, error } = await supabase
-    .from('todos')
-    .select('*')
-
+// Funciones para agregar, modificar y eliminar de todos de la base de datos
 
 /**
  * Agregar nuevas tareas

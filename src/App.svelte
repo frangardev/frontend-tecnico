@@ -1,66 +1,65 @@
 <script>
-  import InputTodo from "./lib/components/InputTodo.svelte";
   //Components
+  import InputTodo from "./lib/components/InputTodo.svelte";
   import Navbar from "./lib/components/Navbar.svelte";
   import Container from "./lib/components/AppContainer.svelte";
   import Footer from "./lib/components/Footer.svelte";
-
-  // Data todos
-  import {
-    completeTodo,
-    deleteTodo,
-    addTodo,
-    supabase,
-  } from "../src/lib/server";
   import TodoItem from "./lib/components/TodoItem.svelte";
 
-  let myTodos = [];
-  let isRefreshTodos = true;
+  // Data todos
+  import { completeTodo, deleteTodo, addTodo } from "../src/lib/server";
+  import supabase from "./lib/server/createClient";
 
-  $: {
-    const getDataTodos = async () => {
-      const { data: todos, error } = await supabase.from("todos").select("*");
-      if (todos !== myTodos) {
-        myTodos = await todos;
-      }
-    };
-    if (isRefreshTodos) {
-      getDataTodos();
-      isRefreshTodos = false;
-    }
-  }
+  import { onMount } from "svelte";
 
-  const onCompleteTodo = (id) => {
+  $: myTodos = [];
+
+  // Actualiza myTodos
+  const updateState = async () => {
+    // Trae los todos
+    const { data: todos, error } = await supabase.from("todos").select("*");
+    let resultTodos = await [...todos];
+
+    //Ordena los todo de "Por completar" a los que ya fuerón completados
+    const todoComplete = resultTodos.filter((item) => item.status);
+    const todoIncomplete = resultTodos.filter((item) => !item.status);
+    const orderTodos = [];
+    orderTodos.push(...todoIncomplete, ...todoComplete);
+
+    myTodos = orderTodos;
+  };
+
+  onMount(async () => {
+    updateState();
+  });
+
+  const onCompleteTodo = async (id) => {
     completeTodo(id);
-    isRefreshTodos = true;
+    updateState();
+    updateState();
   };
-  const onDeleteTodo = (id) => {
+  const onDeleteTodo = async (id) => {
     deleteTodo(id);
-    isRefreshTodos = true;
+    updateState();
+    updateState();
   };
-  const onAddTodo = (newTitlem) => {
+  const onAddTodo = async (newTitlem) => {
     if (newTitlem !== "") {
       addTodo(newTitlem);
-      isRefreshTodos = true;
+      updateState();
+      updateState();
     }
   };
-
-  console.log("myTodos", myTodos);
 </script>
 
 <main>
   <Navbar />
+
   <Container>
     <InputTodo {onAddTodo} />
     {#if myTodos.length > 0}
       <ul class="container__todos">
         {#each [...myTodos] as todo}
-          <!-- <div class="container__todo">
-            {todo.titlem}
-            <button on:click={() => onCompleteTodo(todo.id)}>✓ </button>
-            <button on:click={() => onDeleteTodo(todo.id)}>X </button>
-            {todo.status}
-          </div> -->
           <TodoItem {todo} {onCompleteTodo} {onDeleteTodo} />
         {/each}
       </ul>
@@ -71,6 +70,7 @@
       ).length}
     </p>
   </Container>
+
   <Footer />
 </main>
 

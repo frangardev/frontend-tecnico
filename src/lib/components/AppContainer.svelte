@@ -1,3 +1,4 @@
+<!-- Contenedor de la aplicación -->
 <script>
   import { todos } from "../server/index";
 </script>

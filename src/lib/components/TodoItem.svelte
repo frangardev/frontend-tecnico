@@ -1,3 +1,4 @@
+<!-- Componente de todo -->
 <script>
   export let todo;
   export let onCompleteTodo;
