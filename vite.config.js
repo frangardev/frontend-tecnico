@@ -21,7 +21,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     // vite config
     plugins: [svelte()],
-    base: '/frontend-tecnico/',
+    // base: '/frontend-tecnico/',
     esbuild: {
       supported: {
         'top-level-await': true //browsers can handle top-level-await features
