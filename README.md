@@ -2,7 +2,7 @@
 
 Prueba técnica para el puesto de frontend en Perfilan utilizando svelte, conectado a la base de datos creada en supabase
 
-#### Puede ver el proyecto [aquí](https://frangardev.github.io/frontend-tecnico/ "aquí")
+#### Puede ver el proyecto [aquí](https://frontend-tecnico-psi.vercel.app/ "aquí")
 
 ## Estructura del proyecto
 
